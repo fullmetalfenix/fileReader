@@ -14,14 +14,18 @@
                 return
             }
             function onFileChanged(theEvt){
-             
-             var theFile = theEvt.target.files[0];
 
-             document.getElementById("filename").innerHTML = theFile.name;
-             document.getElementById("filesize").innerHTML = theFile.size;
-             document.getElementById("filetype").innerHTML = theFile.type;
-            
-             document.getElementById("filedata").innerHTML = fileInfo;
+                var files = theEvt.target.files;
+                var totalBytes = 0;
+                console.log(files.length);
+                for(var i = 0; i < files.length; i++){
+                    var fileInfo = "<p> File Name: " + files[i].name + "; size: "+ files[i].size + "; Type: " + files[i].type + "</p>"; 
+                    totalBytes += files[i].size;
+                    document.getElementById('filedata').innerHTML += fileInfo;
+                }
+                document.getElementById('filedata').innerHTML += "<p>Total of all " + files.length + " files, " + totalBytes + "bytes.</p>";
+
+
              }
 
             document.getElementById("fileElem").addEventListener('change', onFileChanged);            
@@ -33,10 +37,8 @@
 <body>
     <form action="">
         <label>Select A File:</label>
-        <input type='file' name="files" id='fileElem' />
+        <input type='file' name="files" id='fileElem' multiple="multiple" />
     </form>
-    <p>Name: <span id="filename"></span></p>
-    <p>Size: <span id="filesize"></span></p>
-    <p>Type: <span id="filetype"></span></p>
+    <div id="filedata"></div>
 </body>
 </html>
