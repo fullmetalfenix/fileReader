@@ -5,10 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script type="text/javascript">
+        function init(){
+            var bHaveFileAPI = (window.File && window.FileReader);
+
+            if(!bHaveFileAPI){
+                alert("This Browser doesnt support the File API");
+                return
+            }
+            function onFileChanged(evt){
+                alert("you selected a file: " + evt.target.files[0].name);         
+            }
+
+            document.getElementById("fileElem").addEventListener('change', onFileChanged);            
+        }
+
+        window.addEventListener('load', init);
+    </script>
 </head>
 <body>
     <form action="">
-        
+        <label>Select A File:</label>
+        <input type='file' name="files" id='fileElem' />
     </form>
 </body>
 </html>
