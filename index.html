@@ -13,9 +13,16 @@
                 alert("This Browser doesnt support the File API");
                 return
             }
-            function onFileChanged(evt){
-                alert("you selected a file: " + evt.target.files[0].name);         
-            }
+            function onFileChanged(theEvt){
+             
+             var theFile = theEvt.target.files[0];
+
+             document.getElementById("filename").innerHTML = theFile.name;
+             document.getElementById("filesize").innerHTML = theFile.size;
+             document.getElementById("filetype").innerHTML = theFile.type;
+            
+             document.getElementById("filedata").innerHTML = fileInfo;
+             }
 
             document.getElementById("fileElem").addEventListener('change', onFileChanged);            
         }
@@ -28,5 +35,8 @@
         <label>Select A File:</label>
         <input type='file' name="files" id='fileElem' />
     </form>
+    <p>Name: <span id="filename"></span></p>
+    <p>Size: <span id="filesize"></span></p>
+    <p>Type: <span id="filetype"></span></p>
 </body>
 </html>
