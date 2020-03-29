@@ -22,6 +22,12 @@
                 return
             }
 
+
+            //new event handlers
+            document.getElementById('filedrop').addEventListener('drop', onFilesDropped);
+            document.getElementById('filedrop').addEventListener('dragover', onDragOver);
+            
+
 //Stops browser from loading files itself.
             function onDragOver(theEvt){
                 theEvt.stopPropagation();
@@ -32,15 +38,19 @@
                     theEvt.stopPropagation();
                     theEvt.preventDefault();
 
-                    var files = theEvet.dataTransfer.files;
+                    var files = theEvt.dataTransfer.files;
                     var totalBytes = 0;
 
                     document.getElementById('filedata').innerHTML = '';
 
-                    for(var i = 0; i < files.legnth; i++){
-                        var fileInfo
-                    }
+                for(var i = 0; i < files.length; i++){
+                    var fileInfo = "<p> File Name: " + files[i].name + "; size: "+ files[i].size + "; Type: " + files[i].type + "</p>"; 
+                    totalBytes += files[i].size;
+                    document.getElementById('filedata').innerHTML += fileInfo;
                 }
+                document.getElementById('filedata').innerHTML += "<p> Total Bytes: " + totalBytes + "</p>";
+            }
+        }
 
 
         window.addEventListener('load', init);
