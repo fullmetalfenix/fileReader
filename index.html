@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+     #filedrop{
+         height: 300px;
+         width: 300px;
+         background: lightgray;
+         border: 2px dashed black;
+     }
+    </style>
     <script type="text/javascript">
         function init(){
             var bHaveFileAPI = (window.File && window.FileReader);
@@ -13,32 +21,34 @@
                 alert("This Browser doesnt support the File API");
                 return
             }
-            function onFileChanged(theEvt){
 
-                var files = theEvt.target.files;
-                var totalBytes = 0;
-                console.log(files.length);
-                for(var i = 0; i < files.length; i++){
-                    var fileInfo = "<p> File Name: " + files[i].name + "; size: "+ files[i].size + "; Type: " + files[i].type + "</p>"; 
-                    totalBytes += files[i].size;
-                    document.getElementById('filedata').innerHTML += fileInfo;
+//Stops browser from loading files itself.
+            function onDragOver(theEvt){
+                theEvt.stopPropagation();
+                theEvt.preventDefault();
                 }
-                document.getElementById('filedata').innerHTML += "<p>Total of all " + files.length + " files, " + totalBytes + "bytes.</p>";
 
+                function onFilesDropped(theEvt){
+                    theEvt.stopPropagation();
+                    theEvt.preventDefault();
 
-             }
+                    var files = theEvet.dataTransfer.files;
+                    var totalBytes = 0;
 
-            document.getElementById("fileElem").addEventListener('change', onFileChanged);            
-        }
+                    document.getElementById('filedata').innerHTML = '';
+
+                    for(var i = 0; i < files.legnth; i++){
+                        var fileInfo
+                    }
+                }
+
 
         window.addEventListener('load', init);
     </script>
 </head>
 <body>
-    <form action="">
-        <label>Select A File:</label>
-        <input type='file' name="files" id='fileElem' multiple="multiple" />
-    </form>
+    <p>Drop Files Here:</p>
+    <div id="filedrop"></div>
     <div id="filedata"></div>
 </body>
 </html>
