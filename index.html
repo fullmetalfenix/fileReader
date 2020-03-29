@@ -19,46 +19,38 @@
 
             if(!bHaveFileAPI){
                 alert("This Browser doesnt support the File API");
-                return
+                return;
+            }
+            document.getElementById('fileElem').addEventListener("change", onFilesChanged);
+        }     
+
+        function onFilesChanged(theEvt){
+            var theFile = theEvt.target.files[0];
+            var totalBytes = 0;
+
+            if(theFile.type != "text/plain"){
+                document.getElementById('filecontents').innerHTML = "No Text file chosen";
+                return;
             }
 
+            var reader = new FileReader();
 
-            //new event handlers
-            document.getElementById('filedrop').addEventListener('drop', onFilesDropped);
-            document.getElementById('filedrop').addEventListener('dragover', onDragOver);
-            
-
-//Stops browser from loading files itself.
-            function onDragOver(theEvt){
-                theEvt.stopPropagation();
-                theEvt.preventDefault();
-                }
-
-                function onFilesDropped(theEvt){
-                    theEvt.stopPropagation();
-                    theEvt.preventDefault();
-
-                    var files = theEvt.dataTransfer.files;
-                    var totalBytes = 0;
-
-                    document.getElementById('filedata').innerHTML = '';
-
-                for(var i = 0; i < files.length; i++){
-                    var fileInfo = "<p> File Name: " + files[i].name + "; size: "+ files[i].size + "; Type: " + files[i].type + "</p>"; 
-                    totalBytes += files[i].size;
-                    document.getElementById('filedata').innerHTML += fileInfo;
-                }
-                document.getElementById('filedata').innerHTML += "<p> Total Bytes: " + totalBytes + "</p>";
+            reader.onload = function(evt){
+                var resultText = evt.target.result;
+                document.getElementById('filecontents').innerHTML = resultText;
             }
+            reader.readAsText(theFile);
         }
-
 
         window.addEventListener('load', init);
     </script>
 </head>
 <body>
-    <p>Drop Files Here:</p>
-    <div id="filedrop"></div>
-    <div id="filedata"></div>
+    <form action="">
+        <label for="">Select a file:</label>
+        <input type="file" name="files" id="fileElem" />
+    </form>
+    <textarea name="" id="filecontents" cols="80" rows="10"></textarea>
+
 </body>
 </html>
