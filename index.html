@@ -21,28 +21,43 @@
                 alert("This Browser doesnt support the File API");
                 return;
             }
+            console.log('Hello Init')
             document.getElementById('fileElem').addEventListener("change", onFilesChanged);
         }     
+
+
+
 
         function onFilesChanged(theEvt){
             var theFile = theEvt.target.files[0];
             var totalBytes = 0;
-
-            if(theFile.type != "text/plain"){
-                document.getElementById('filecontents').innerHTML = "No Text file chosen";
+            console.log(theFile.type);
+            if(theFile.type != "image/jpeg"){
+                console.log('heres the error')
                 return;
             }
 
             var reader = new FileReader();
 
             reader.onload = function(evt){
-                var resultText = evt.target.result;
-                document.getElementById('filecontents').innerHTML = resultText;
+                var resultdata = evt.target.result;
+
+                var img = new Image();
+                //string that comes back starts off w/ data url mime type etc completly encoded
+                img.src = event.target.result;
+
+                document.getElementById('filecontents').appendChild(img);
             }
-            reader.readAsText(theFile);
+            // kicks off
+            reader.readAsDataURL(theFile);
+
+
         }
 
         window.addEventListener('load', init);
+
+
+
     </script>
 </head>
 <body>
@@ -50,7 +65,7 @@
         <label for="">Select a file:</label>
         <input type="file" name="files" id="fileElem" />
     </form>
-    <textarea name="" id="filecontents" cols="80" rows="10"></textarea>
+    <div name="" id="filecontents"></div>
 
 </body>
 </html>
